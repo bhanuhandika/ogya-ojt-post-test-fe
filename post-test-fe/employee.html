@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POST-TEST-FE | Employee</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            height: 100vh;
+            /* Mengatur tinggi tubuh halaman menjadi 100% dari tinggi viewport */
+            margin: 0;
+        }
+    
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            padding-top: 20px;
+            height: 100vh;
+            /* Sidebar mengambil tinggi penuh dari layar */
+            position: fixed;
+            /* Menjaga sidebar tetap di tempat saat scroll */
+            width: 250px;
+            /* Lebar sidebar tetap */
+        }
+    
+        .sidebar .nav-link {
+            color: white;
+        }
+    
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+    
+        .content {
+            margin-left: 250px;
+            /* Memberikan ruang untuk sidebar fixed */
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            /* Menjaga konten agar tinggi penuh */
+            overflow-y: auto;
+            /* Agar konten bisa di-scroll jika lebih tinggi dari layar */
+        }
+    
+        .card {
+            margin-bottom: 20px;
+        }
+    
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <h2 class="text-center text-white">POST-TEST-FE</h2>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="#" id="menu-department" class="nav-link">Data Department</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="menu-employee" class="nav-link">Data Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="menu-job" class="nav-link">Data Job</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="menu-jobHistory" class="nav-link">Data Job History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Content Area -->
+            <div class="col-md-10 content">
+                <div class="container mt-4">
+                    <div class="d-flex justify-content-start mb-3">
+                        <a href="dashboard.html" class="btn btn-secondary">
+                            Back to Dashboard
+                        </a>
+                    </div>
+                    <h3>Data Employee</h3>
+                
+                    <div class="d-flex justify-content-end mb-3">
+                
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                            Add Employee
+                        </button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Filter Employee</span>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Cari data employee" aria-label=""
+                            aria-describedby="basic-addon1" onkeyup="filterEmployees()">
+                    </div>
+                
+                    <table id="employeeTable" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>Hire Date</th>
+                                <th>Job Title</th> <!-- Kolom baru -->
+                                <th>Salary</th>
+                                <th>Commission Pct</th>
+                                <th>Manager ID</th>
+                                <th>Department Name</th> <!-- Kolom baru -->
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                
+                        <tbody></tbody>
+                    </table>
+                    <div id="pagination" class="d-flex justify-content-center mt-3"></div>
+                
+                    <div class="modal" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addEmployeeForm">
+                                        <div class="mb-3">
+                                            <label for="addFirstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="addFirstName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addLastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="addLastName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addEmail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="addEmail" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addPhoneNumber" class="form-label">Phone Number</label>
+                                            <input type="number" class="form-control" id="addPhoneNumber">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addHireDate" class="form-label">Hire Date</label>
+                                            <input type="date" class="form-control" id="addHireDate" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addJobId" class="form-label">Job</label>
+                                            <select class="form-control" id="addJobId" required></select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addSalary" class="form-label">Salary</label>
+                                            <input type="number" class="form-control" id="addSalary">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addCommissionPct" class="form-label">Commission Pct</label>
+                                            <input type="number" class="form-control" id="addCommissionPct">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addManagerId" class="form-label">Manager ID</label>
+                                            <input type="number" class="form-control" id="addManagerId">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addDepartmentId" class="form-label">Department</label>
+                                            <select class="form-control" id="addDepartmentId" required></select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add Employee</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="modal" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editEmployeeModalLabel">Edit Employee</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editEmployeeForm">
+                                        <input type="hidden" id="editEmployeeId">
+                                        <div class="mb-3">
+                                            <label for="editFirstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="editFirstName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editLastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="editLastName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editEmail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="editEmail" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editPhoneNumber" class="form-label">Phone Number</label>
+                                            <input type="text" class="form-control" id="editPhoneNumber">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editHireDate" class="form-label">Hire Date</label>
+                                            <input type="date" class="form-control" id="editHireDate" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editJobId" class="form-label">Job</label>
+                                            <input type="text" class="form-control" id="editJobId" required>
+                                            <!-- <select class="form-control" id="editJobId" required></select> -->
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editSalary" class="form-label">Salary</label>
+                                            <input type="number" class="form-control" id="editSalary">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editCommissionPct" class="form-label">Commission Pct</label>
+                                            <input type="number" class="form-control" id="editCommissionPct">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editManagerId" class="form-label">Manager ID</label>
+                                            <input type="number" class="form-control" id="editManagerId">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editDepartmentId" class="form-label">Department</label>
+                                            <input type="text" class="form-control" id="editDepartmentId" required>
+                                            <!-- <select class="form-control" id="editDepartmentId" required></select> -->
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Update Employee</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/employee.js"></script>
+
+    <script>
+        
+    </script>
+</body>
+
+</html>

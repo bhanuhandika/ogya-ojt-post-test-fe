@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POST-TEST-FE | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            padding-top: 20px;
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        /* Card dengan warna biru */
+        .card-blue .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .card-blue .card-body {
+            background-color: #e6f2ff;
+        }
+
+        /* Card dengan warna hijau */
+        .card-green .card-header {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .card-green .card-body {
+            background-color: #e9f7e7;
+        }
+
+        /* Card dengan warna merah */
+        .card-red .card-header {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .card-red .card-body {
+            background-color: #f8d7da;
+        }
+
+        /* Card dengan warna kuning */
+        .card-yellow .card-header {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .card-yellow .card-body {
+            background-color: #fff3cd;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <h2 class="text-center text-white">POST-TEST-FE</h2>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="#" id="menu-department" class="nav-link">Data Department</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="menu-employee" class="nav-link">Data Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="menu-job" class="nav-link">Data Job</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="menu-jobHistory" class="nav-link">Data Job History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Content Area -->
+            <div class="col-md-10 content">
+                <h3>Welcome to the Dashboard</h3>
+                <p>Select a menu to view data.</p>
+
+                <!-- Cards for Dashboard Menus -->
+                <div class="row">
+                    <!-- Card for Data Department -->
+                    <div class="col-md-6">
+                        <div class="card card-blue" onclick="window.location.href='department.html'">
+                            <div class="card-header">
+                                <h5>Data Department</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>View and manage department data.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card for Data Employee -->
+                    <div class="col-md-6 card-yellow">
+                        <div class="card" onclick="window.location.href='employee.html'">
+                            <div class="card-header">
+                                <h5>Data Employee</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>View and manage employee data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Card for Data Job -->
+                    <div class="col-md-6">
+                        <div class="card card-red" onclick="window.location.href='job.html'">
+                            <div class="card-header">
+                                <h5>Data Job</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>View and manage job data.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card for Data Job History -->
+                    <div class="col-md-6">
+                        <div class="card card-green" onclick="window.location.href='jobHistory.html'">
+                            <div class="card-header">
+                                <h5>Data Job History</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>View employee job history data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
